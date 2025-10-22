@@ -1,0 +1,37 @@
+body {
+    font-family: 'Arial', sans-serif;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    background-image: url("/images/treasure-background.jpg");
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    color: #333;
+    min-height: 100vh;
+    position: relative;
+}
+
+.game-container {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    min-height: 500px;
+    position: relative;
+    overflow: hidden;
+}
+
+.loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(76, 175, 80, 0.3);
+    border-radius: 50%;
+    border-top-color: #4CAF50;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
