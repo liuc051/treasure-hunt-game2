@@ -1,12 +1,12 @@
 <template>
   <div class="login">
     <h2>登录</h2>
-    <input 
-      v-model="username" 
-      placeholder="请输入用户名"
-      @keyup.enter="handleLogin"
-    >
+    <div class="form-group">
+      <label for="username">用户名:</label>
+      <input type="text" id="username" v-model="username" required>
+    </div>
     <button @click="handleLogin">登录</button>
+    <p class="error" v-if="error">{{ error }}</p>
   </div>
 </template>
 
@@ -16,39 +16,50 @@ import { useUserStore } from '../stores/userStore'
 import { useRouter } from 'vue-router'
 
 const username = ref('')
+const error = ref('')
 const userStore = useUserStore()
 const router = useRouter()
 
 const handleLogin = () => {
-  if (username.value.trim()) {
-    userStore.login(username.value.trim())
-    router.push('/game')
+  if (!username.value.trim()) {
+    error.value = '请输入用户名'
+    return
   }
+  
+  userStore.login(username.value.trim())
+  router.push('/game')
 }
 </script>
 
 <style>
 .login {
-  text-align: center;
-  padding: 50px 20px;
-}
-
-.login h2 {
-  margin-bottom: 30px;
-  color: #2e7d32; /* 草绿色调 */
-  font-size: 2rem;
-}
-
-.login input {
-  padding: 10px;
-  margin-bottom: 20px;
-  width: 80%;
   max-width: 300px;
-  font-size: 1rem;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
-.login button {
-  padding: 10px 20px;
-  font-size: 1rem;
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.error {
+  color: red;
+  text-align: center;
 }
 </style>

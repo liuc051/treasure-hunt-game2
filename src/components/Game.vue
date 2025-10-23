@@ -36,7 +36,6 @@ const handleOption = (nextStep) => {
 }
 
 const handleRestart = () => {
-  // 无论成功还是失败都保存分数
   if (gameStore.currentScene === 'success' || gameStore.currentScene === 'failure') {
     userStore.saveScore(gameStore.score, gameStore.time)
   }

@@ -1,4 +1,3 @@
-// src/stores/gameStore.js
 import { defineStore } from 'pinia'
 
 export const useGameStore = defineStore('game', {
@@ -11,10 +10,10 @@ export const useGameStore = defineStore('game', {
     time: 0,
     timer: null,
     failureMessage: '',
-    failureImage: '', // 添加失败图片路径状态
+    failureImage: '',
     exploredScenes: new Set(),
     progress: 0,
-    totalScenes: 13 // 总场景数量
+    totalScenes: 13
   }),
   actions: {
     startTimer() {
@@ -46,12 +45,10 @@ export const useGameStore = defineStore('game', {
       try {
         await new Promise(resolve => setTimeout(resolve, 800))
         
-        // 记录已探索场景并更新进度
         this.exploredScenes.add(location)
         this.progress = Math.round((this.exploredScenes.size / this.totalScenes) * 100)
         
         const scenes = {
-          // 基础场景
           forest: {
             message: "你在森林深处发现了一个古老的石碑，上面刻着奇怪的符号...",
             image: "stone-tablet.jpg",
@@ -77,7 +74,6 @@ export const useGameStore = defineStore('game', {
             ]
           },
           
-          // 森林子场景
           'forest-path': {
             message: "你沿着小路来到一个瀑布前，发现瀑布后面有个洞口！",
             image: "waterfall-cave.jpg",
@@ -93,7 +89,6 @@ export const useGameStore = defineStore('game', {
             ]
           },
           
-          // 洞穴子场景
           'boat-ride': {
             message: "湖中心有个小岛，岛上有个宝箱！",
             image: "island-treasure.jpg",
@@ -109,7 +104,6 @@ export const useGameStore = defineStore('game', {
             ]
           },
           
-          // 高山子场景
           'telescope': {
             message: "望远镜指向山谷中的一块巨石，看起来很不寻常...",
             image: "telescope-view.jpg",
@@ -125,14 +119,12 @@ export const useGameStore = defineStore('game', {
             ]
           },
           
-          // 宝藏场景
           'treasure-cave': { isTreasure: true },
           'treasure-passage': { isTreasure: true },
           'open-treasure': { isTreasure: true },
           'mountain-valley': { isTreasure: true }
         }
         
-        // 随机失败概率
         if (Math.random() < 0.3 && !scenes[location]?.isTreasure) {
           const failures = {
             forest: {
@@ -185,14 +177,12 @@ export const useGameStore = defineStore('game', {
         }
         
         if (scenes[location]?.isTreasure) {
-          // 计算最终得分
           const baseScore = 100
           const progressScore = this.progress
           const timeBonus = Math.max(0, 50 - Math.min(50, Math.floor(this.time / 10)))
           this.score += baseScore + progressScore + timeBonus
           this.goToScene('success')
         } else {
-          // 探索得分
           const sceneDepth = location.split('-').length
           const sceneScore = 10 * sceneDepth
           this.score += sceneScore
@@ -203,10 +193,9 @@ export const useGameStore = defineStore('game', {
           this.currentScene = 'game'
         }
       } catch (error) {
-        // 失败时保留70%分数
         this.score = Math.round(this.score * 0.7)
         this.failureMessage = error.message
-        this.failureImage = error.image || "default-failure.jpg" // 保存失败图片路径
+        this.failureImage = error.image || "default-failure.jpg"
         this.goToScene('failure')
       }
     },
@@ -220,7 +209,7 @@ export const useGameStore = defineStore('game', {
       this.image = ''
       this.options = []
       this.failureMessage = ''
-      this.failureImage = '' // 重置失败图片
+      this.failureImage = ''
       this.exploredScenes.clear()
       this.progress = 0
     }

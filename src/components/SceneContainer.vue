@@ -14,7 +14,6 @@
       <div class="message">这是寻宝世界的全景地图，点击标记的地点开始探索：</div>
       <div class="image-container panorama-container">
         <img src="/images/panorama-map.jpg" alt="寻宝全景地图" class="image-placeholder">
-        <!-- 地图上的地点标记 -->
         <div class="location-marker" style="top: 30%; left: 20%;" @click="$emit('enter-location', 'forest')">东边森林</div>
         <div class="location-marker" style="top: 65%; left: 50%;" @click="$emit('enter-location', 'cave')">南边洞穴</div>
         <div class="location-marker" style="top: 15%; left: 65%;" @click="$emit('enter-location', 'mountain')">西边高山</div>
@@ -83,7 +82,7 @@ const props = defineProps({
   image: String,
   options: Array,
   failureMessage: String,
-  failureImage: String, // 添加失败图片属性
+  failureImage: String,
   score: Number,
   time: Number,
   progress: Number
@@ -131,13 +130,12 @@ const formatTime = (seconds) => {
 
 .location-marker {
   position: absolute;
-  /* 增加宽度以适应文字 */
   width: auto;
   min-width: 80px;
   padding: 5px 10px;
   height: auto;
   background-color: rgba(255, 0, 0, 0.7);
-  border-radius: 5px; /* 改为圆角矩形更适合文字 */
+  border-radius: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -146,6 +144,28 @@ const formatTime = (seconds) => {
   cursor: pointer;
   transition: transform 0.3s, background-color 0.3s;
   z-index: 10;
-  font-size: 14px; /* 适当调整字体大小 */
+  font-size: 14px;
+}
+
+.options {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.info {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 </style>

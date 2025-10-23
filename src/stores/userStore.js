@@ -2,46 +2,50 @@ import { defineStore } from 'pinia'
 
 export const useUserStore = defineStore('user', {
   state: () => ({
-    user: JSON.parse(localStorage.getItem('user')) || null,
-    rankings: JSON.parse(localStorage.getItem('rankings')) || []
+    user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null,
+    scores: []
   }),
   actions: {
     login(username) {
-      // 检查是否已有该用户数据
-      const existingUser = JSON.parse(localStorage.getItem('user'))
-      if (existingUser && existingUser.username === username) {
-        this.user = existingUser
-      } else {
-        this.user = { username, bestScore: 0, gamesPlayed: 0 }
-      }
+      this.user = { username }
       localStorage.setItem('user', JSON.stringify(this.user))
+      this.loadScores()
     },
+    
     logout() {
       this.user = null
       localStorage.removeItem('user')
     },
+    
+    loadScores() {
+      const savedScores = localStorage.getItem('treasureHuntScores')
+      this.scores = savedScores ? JSON.parse(savedScores) : []
+    },
+    
     saveScore(score, time) {
       if (!this.user) return
       
-      this.user.gamesPlayed++
-      if (score > this.user.bestScore) {
-        this.user.bestScore = score
-      }
-      
-      // 更新排行榜
-      this.rankings.push({
+      const newScore = {
         username: this.user.username,
         score,
         time,
         date: new Date().toISOString()
-      })
+      }
       
-      // 排序并保留前10名
-      this.rankings.sort((a, b) => b.score - a.score || a.time - b.time)
-      if (this.rankings.length > 10) this.rankings = this.rankings.slice(0, 10)
+      this.scores.push(newScore)
       
-      localStorage.setItem('user', JSON.stringify(this.user))
-      localStorage.setItem('rankings', JSON.stringify(this.rankings))
+      // 只保留前100条高分记录
+      this.scores.sort((a, b) => b.score - a.score || a.time - b.time)
+      if (this.scores.length > 100) {
+        this.scores = this.scores.slice(0, 100)
+      }
+      
+      localStorage.setItem('treasureHuntScores', JSON.stringify(this.scores))
+    },
+    
+    getRanking() {
+      // 返回排序后的排行榜
+      return [...this.scores].sort((a, b) => b.score - a.score || a.time - b.time)
     }
   }
 })

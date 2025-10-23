@@ -26,8 +26,8 @@ const userStore = useUserStore()
 }
 
 .home h1 {
-  color: #2e7d32; /* 草绿色调 */
-  text-shadow: 0 0 5px rgba(255, 255, 255, 0.8); /* 增加文字阴影提高可读性 */
+  color: #2e7d32;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
   font-size: 2.5rem;
   margin-bottom: 30px;
 }

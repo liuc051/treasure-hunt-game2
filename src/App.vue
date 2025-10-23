@@ -33,23 +33,14 @@ nav {
 nav a {
   margin: 0 10px;
   text-decoration: none;
-  color: #2e7d32; /* 更鲜艳的草绿色 */
+  color: #2e7d32;
   font-weight: bold;
   font-size: 1.1rem;
   text-shadow: 0 0 2px rgba(255, 255, 255, 0.7);
 }
 
 nav a.active {
-  color: #1b5e20; /* 更深的绿色作为活跃状态 */
+  color: #1b5e20;
   text-decoration: underline;
-}
-
-button {
-  background: #4CAF50;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 3px;
-  cursor: pointer;
 }
 </style>
